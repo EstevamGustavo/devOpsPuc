@@ -1,0 +1,6 @@
+@devOpsPuc_HostAddress = http://localhost:5255
+
+GET {{devOpsPuc_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
