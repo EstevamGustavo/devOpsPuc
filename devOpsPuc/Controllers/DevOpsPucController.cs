@@ -4,12 +4,18 @@ namespace devOpsPuc.Controllers
 {
     [ApiController]
     [Route("DevOpsPuc")]
-
     public class DevOpsPucController : Controller
     {
-        public IActionResult Index()
+        private static List<string> games = new List<string>
         {
-            return View();
+            "Game 1",
+            "Game 2"
+        };
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(games);
         }
     }
 }
