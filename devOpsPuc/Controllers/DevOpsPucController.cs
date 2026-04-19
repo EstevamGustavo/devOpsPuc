@@ -17,5 +17,15 @@ namespace devOpsPuc.Controllers
         {
             return Ok(games);
         }
+
+        [HttpPost]
+        public IActionResult AddGame([FromBody] string newGame)
+        {
+            Console.WriteLine($"Novo game recebido: {newGame}");
+
+            games.Add(newGame);
+
+            return Ok(games);
+        }
     }
 }
