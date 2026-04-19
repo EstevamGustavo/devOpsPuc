@@ -18,6 +18,17 @@ namespace devOpsPuc.Controllers
             return Ok(games);
         }
 
+        [HttpGet("{index}")]
+        public IActionResult GetByIndex(int index)
+        {
+            if (index < 0 || index >= games.Count)
+            {
+                return NotFound("Índice não encontrado");
+            }
+
+            return Ok(games[index]);
+        }
+
         [HttpPost]
         public IActionResult AddGame([FromBody] string newGame)
         {
