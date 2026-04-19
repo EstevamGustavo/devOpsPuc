@@ -41,5 +41,20 @@ namespace devOpsPuc.Controllers
             return Ok(games);
         }
 
+        [HttpPut("{index}")]
+        public IActionResult Update(int index, [FromBody] string updatedGame)
+        {
+            if (index < 0 || index >= games.Count)
+            {
+                return Ok(games);
+            }
+
+            Console.WriteLine($"Atualizando índice {index} para: {updatedGame}");
+
+            games[index] = updatedGame;
+
+            return Ok(games);
+        }
+
     }
 }
