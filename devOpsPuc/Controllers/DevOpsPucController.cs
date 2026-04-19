@@ -27,5 +27,19 @@ namespace devOpsPuc.Controllers
 
             return Ok(games);
         }
+
+        [HttpDelete("{index}")]
+        public IActionResult Delete(int index)
+        {
+            if (index < 0 || index >= games.Count)
+            {
+                return Ok(games);
+            }
+
+            games.RemoveAt(index);
+
+            return Ok(games);
+        }
+
     }
 }
