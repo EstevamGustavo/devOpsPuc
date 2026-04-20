@@ -1,71 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using devOpsPuc.Services;
+using devOpsPuc.DTOs;
 
 namespace devOpsPuc.Controllers
 {
     [ApiController]
     [Route("DevOpsPuc")]
-    public class DevOpsPucController : Controller
+    public class DevOpsPucController : ControllerBase
     {
-        private static List<string> games = new List<string>
+        private readonly IGameService _service;
+
+        public DevOpsPucController(IGameService service)
         {
-            "Game 1",
-            "Game 2"
-        };
+            _service = service;
+        }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(games);
+            return Ok(_service.GetAll());
         }
 
         [HttpGet("{index}")]
         public IActionResult GetByIndex(int index)
         {
-            if (index < 0 || index >= games.Count)
-            {
-                return NotFound("Índice não encontrado");
-            }
+            var game = _service.GetByIndex(index);
 
-            return Ok(games[index]);
+            if (game == null)
+                return NotFound("Índice não encontrado");
+
+            return Ok(game);
         }
 
         [HttpPost]
-        public IActionResult AddGame([FromBody] string newGame)
+        public IActionResult AddGame([FromBody] GameDto dto)
         {
-            Console.WriteLine($"Novo game recebido: {newGame}");
-
-            games.Add(newGame);
-
-            return Ok(games);
+            return Ok(_service.Add(dto));
         }
 
         [HttpDelete("{index}")]
         public IActionResult Delete(int index)
         {
-            if (index < 0 || index >= games.Count)
-            {
-                return Ok(games);
-            }
-
-            games.RemoveAt(index);
-
-            return Ok(games);
+            return Ok(_service.Delete(index));
         }
 
         [HttpPut("{index}")]
-        public IActionResult Update(int index, [FromBody] string updatedGame)
+        public IActionResult Update(int index, [FromBody] GameDto dto)
         {
-            if (index < 0 || index >= games.Count)
-            {
-                return Ok(games);
-            }
-
-            Console.WriteLine($"Atualizando índice {index} para: {updatedGame}");
-
-            games[index] = updatedGame;
-
-            return Ok(games);
+            return Ok(_service.Update(index, dto));
         }
-
     }
 }
